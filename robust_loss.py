@@ -34,6 +34,11 @@ class MAELoss(torch.nn.Module):
 
 
 class RCELoss(torch.nn.Module):
+    """
+    RCELoss: Reverse Cross Entropy
+    2018 NIPS | Towards Robust Detection of Adversarial Examples
+    Ref: https://arxiv.org/abs/1706.00633
+    """
     def __init__(self, num_classes, scale=1.0):
         super(RCELoss, self).__init__()
         self.num_classes = num_classes

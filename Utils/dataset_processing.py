@@ -38,39 +38,6 @@ def read_json_to_table(file_path, supervised = True):
     return return_table
 
 
-def prompting(unsupervised_dataset, query_index, supervised_dataset, demos):
-    prompting = ''
-    query = unsupervised_dataset[query_index]
-    sample_list = random.sample(range(0, len(supervised_dataset)), demos)
-    for i in sample_list:
-        prompting += 'Please tell me the sentiment polarity (positive, negative, neutral) towards ' + supervised_dataset[i][1] + ' in this text: ' + supervised_dataset[i][0] + ' It is: ' + supervised_dataset[i][2] + ';\n'
-    prompting += 'Please tell me the sentiment polarity (positive, negative, neutral) towards ' + unsupervised_dataset[query_index][1] + ' in this text: ' + unsupervised_dataset[query_index][0] + ' It is: '
-    return prompting
-
-
-def evalute_prompting(
-        dataset, 
-        demos_amount, 
-        query_index = -1
-    ):
-    sample_list = []
-    if query_index == -1:
-        sample_list = random.sample(range(0, len(dataset)), demos_amount + 1)
-    else:
-        sample_list = random.sample(range(0, len(dataset)), demos_amount)
-        if query_index in sample_list:
-            sample_list = random.sample(range(0, len(dataset)), demos_amount)
-        sample_list.append(query_index)
-    
-    prompting = ''
-    query_label = dataset[query_index][2]
-    for i in range(0, demos_amount):
-        prompting += 'Please tell me the sentiment polarity (positive, negative, neutral) towards ' + dataset[sample_list[i]][1] + ' in this text: ' + dataset[sample_list[i]][0] + ' It is: ' + dataset[sample_list[i]][2] + ';\n'
-    prompting += 'Please tell me the sentiment polarity (positive, negative, neutral) towards ' + dataset[query_index][1] + ' in this text: ' + dataset[query_index][0] + ' It is: '
-
-    return prompting, query_label
-
-
 class dataset_loader(Dataset):
     def __init__(
         self, 
